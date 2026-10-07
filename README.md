@@ -1,112 +1,167 @@
 # MobilePOS
 
-A mobile point-of-sale (POS) application built for shops and small retail businesses, supporting role-based access for owners, managers, and shop attendants.
+MobilePOS is a mobile-first point-of-sale application built for small shops and retail businesses. It is designed to help shop owners and staff handle sales, stock lookups, customer flows, and role-aware operations directly from a mobile device.
+
+The project combines a React Native frontend with a backend service layer intended for authentication, business logic, and reporting.
 
 ## Overview
 
-MobilePOS lets shop owners manage sales, inventory, and staff activity from a mobile app, with a Django-powered backend handling authentication, data, and reporting.
+MobilePOS is built for retail environments where operational speed matters. It helps users:
+
+- process sales quickly
+- track inventory and stock levels
+- manage staff roles and permissions
+- review basic business metrics
+- support mobile checkout and product scanning flows
 
 ## Tech Stack
 
-**Frontend**
+### Frontend
 - React Native
-- Zustand (state management)
+- Expo
+- TypeScript
+- Zustand
+- React Navigation
+- NativeWind / tailwind-style UX patterns
 
-**Backend**
+### Backend
 - Django
-- Django REST Framework (DRF)
-- Simple JWT (authentication)
+- Django REST Framework
+- JWT-based authentication
 
-## Current Status
+## Core Features
 
-🚧 Early development
+- Mobile point-of-sale workflow
+- Role-based access for owners, managers, and attendants
+- Inventory checks during sales
+- Product scanning support planned for barcode/QR workflows
+- Dashboard and reporting foundations
+- Modular frontend/backend architecture for future expansion
 
-- [x] Project setup (frontend + backend scaffolding)
-- [x] JWT authentication (login/token handling)
-- [ ] QR code scanner
-- [ ] Dashboard metrics
-- [ ] Reports
-- [ ] Role-based access (Owner / Manager / Shop Attendant)
+## Roles
 
-## Planned Features
-
-- **QR Code Scanner** — scan product QR/barcodes for fast checkout and inventory lookup
-- **Dashboard Metrics** — real-time sales, stock, and staff activity overview
-- **Reports** — sales and inventory reports, likely filterable by date range and staff member
-- **Role-Based Access** — three user roles with different permissions:
-  | Role | Description |
-  |------|-------------|
-  | **Owner** | Full access — reports, dashboard, staff management, settings |
-  | **Manager** | Manages inventory, staff activity, and day-to-day reports |
-  | **Shop Attendant** | Handles sales/checkout and QR scanning only |
+| Role | Access |
+|---|---|
+| Owner | Full access to management, reporting, and settings |
+| Manager | Inventory and operational oversight |
+| Shop Attendant | Sales and checkout-focused access |
 
 ## Project Structure
 
-```
-mobilePOS/
+```bash
+MobilePOS/
 ├── frontend/          # React Native app
-│   ├── src/
-│   ├── package.json
+│   ├── app/           # Expo Router screens
+│   ├── components/    # Reusable UI
+│   ├── store/         # Zustand stores
+│   ├── services/      # API client code
+│   ├── types/         # Shared types
+│   ├── package.json   # Frontend dependencies and scripts
 │   └── ...
-├── backend/           # Django REST Framework API
+├── backend/           # Django API backend
 │   ├── manage.py
 │   ├── requirements.txt
 │   └── ...
-└── README.md
+├── requirements.txt   # Project-level dependency list
+├── README.md          # Project documentation
+└── .gitignore
 ```
-
-> Update this tree to match your actual folder layout as the project grows.
 
 ## Getting Started
 
-### Backend Setup
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/MuchiraIrungu/MobilePOS.git
+cd MobilePOS
+```
+
+### 2. Backend setup
 
 ```bash
 cd backend
 python -m venv venv
-source venv/bin/activate      # Windows: venv\Scripts\activate
+source venv/bin/activate   # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 python manage.py migrate
 python manage.py runserver
 ```
 
-### Frontend Setup
+### 3. Frontend setup
 
 ```bash
 cd frontend
 npm install
-npx react-native run-android   # or run-ios
+npx expo start
 ```
 
-### Environment Variables
+Then open the app in:
 
-Create a `.env` file in `backend/` with at least:
+- Expo Go
+- Android emulator
+- iOS simulator
 
-```
+## Environment Variables
+
+Create environment settings for your backend connection and app credentials as needed. A typical backend config may include:
+
+```env
 SECRET_KEY=your-secret-key
 DEBUG=True
-DATABASE_URL=your-database-url
+DATABASE_URL=postgresql://user:password@localhost:5432/mobilepos
+```
+
+For the frontend, use environment variables if the app is consuming an API base URL:
+
+```env
+EXPO_PUBLIC_API_URL=http://localhost:8000
 ```
 
 ## Authentication
 
-Authentication is handled via **Simple JWT**. On login, the API returns an access and refresh token pair; the access token is sent as a Bearer token on subsequent requests, and the refresh token is used to obtain new access tokens once they expire.
+The application is intended to use JWT-based authentication. The expected flow is:
 
-## Roadmap
+1. User logs in
+2. Backend returns access and refresh tokens
+3. Frontend stores tokens securely
+4. Protected requests use the bearer token
+5. Refresh flow is used when the access token expires
 
-1. Finish role-based permissions (Owner / Manager / Shop Attendant)
-2. Build QR code scanner integration
-3. Build dashboard metrics screen
-4. Build reports module
-5. Polish UI/UX and prepare for beta testing
+## Development Roadmap
+
+### Current status
+- Project scaffolding complete
+- Frontend and backend structure set up
+- Auth foundations in place
+- Core POS UI and mobile app flow under active development
+
+### Planned features
+- QR code and barcode scanning
+- Dashboard analytics
+- Sales and inventory reports
+- Stronger role-based permissions
+- Better error handling and offline readiness
+
+## Best Practices for This Repo
+
+- Keep UI logic in the frontend and business logic in the backend
+- Centralize API calls in a dedicated service layer
+- Reuse Zustand stores for shared app state
+- Keep role checks explicit and consistent
+- Add validation and tests as modules are completed
 
 ## Contributing
 
-This is currently a solo/early-stage project. Contribution guidelines will be added once the core features are stable.
+This project is in active development. Contributions are welcome as the system evolves. If you are working on the repo:
+
+- keep feature work scoped
+- follow the project structure closely
+- add documentation for new modules and endpoints
+- keep commits focused and readable
 
 ## License
 
-Copyright (c) [2026] [MuchiraIrungu]
+Copyright (c) 2026 MuchiraIrungu
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
